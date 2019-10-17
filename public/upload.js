@@ -55,11 +55,7 @@ function typeSeparate(masterObject) {
     let n = col.search(/[a-zA-Z]/i);
     console.log('search results:' + n)
     if (n==-1) {
-      console.log(col.match(reg));
-      console.log(col.length);
-      // if (col.match(reg).length == col.length) {
-        return 'num';
-      // }
+        return 'quant';
     }
       return 'qual'
     
@@ -73,6 +69,19 @@ function histogramGenerate(obj){
   for(let i=0; i<obj.colTypes.length; i ++){
     if (obj.colTypes[i]==='quant'){
       console.log(`${i}th column is quantitative`);
+      let tempArray = [];
+      obj.csvArray.map((item)=>{
+        
+        tempArray.push(item[i]);
+      })
+      console.log(tempArray);
+       tempArray.shift();
+      let tempMean =parseFloat( d3.mean(tempArray).toString().substring(0,5));
+      let tempMin = parseFloat(d3.min(tempArray).toString().substring(0,5));
+      let tempMax = parseFloat(d3.max(tempArray).toString().substring(0,5));
+      let binSize = (tempMax- tempMin)/10;
+      console.log(tempMean, tempMin, tempMax, binSize);
+
 
     }
 
