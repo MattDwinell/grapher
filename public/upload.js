@@ -1,7 +1,7 @@
 let masterObject = {
   csvArray: [],
   colNames: [],
-  colTypes:[]
+  colTypes: []
 }
 function uploadDealcsv() { };
 
@@ -54,33 +54,96 @@ function typeSeparate(masterObject) {
     console.log(col.match(reg));
     let n = col.search(/[a-zA-Z]/i);
     console.log('search results:' + n)
-    if (n==-1) {
-        return 'quant';
+    if (n == -1) {
+      return 'quant';
     }
-      return 'qual'
-    
+    return 'qual'
+
   })
   console.log(colMap);
   masterObject.colTypes = colMap;
   histogramGenerate(masterObject);
 }
 
-function histogramGenerate(obj){
-  for(let i=0; i<obj.colTypes.length; i ++){
-    if (obj.colTypes[i]==='quant'){
+function histogramGenerate(obj) {
+  for (let i = 0; i < obj.colTypes.length; i++) {
+    if (obj.colTypes[i] === 'quant') {
       console.log(`${i}th column is quantitative`);
       let tempArray = [];
-      obj.csvArray.map((item)=>{
-        
+      obj.csvArray.map((item) => {
+
         tempArray.push(item[i]);
       })
+      tempArray.shift();
+      tempArray.sort((a, b) => a - b);
       console.log(tempArray);
-       tempArray.shift();
-      let tempMean =parseFloat( d3.mean(tempArray).toString().substring(0,5));
-      let tempMin = parseFloat(d3.min(tempArray).toString().substring(0,5));
-      let tempMax = parseFloat(d3.max(tempArray).toString().substring(0,5));
-      let binSize = (tempMax- tempMin)/10;
+      let tempMean = parseFloat(d3.mean(tempArray).toString().substring(0, 5));
+      let tempMin = parseFloat(d3.min(tempArray).toString().substring(0, 5));
+      let tempMax = parseFloat(d3.max(tempArray).toString().substring(0, 5));
+      let binSize = (tempMax - tempMin) / 10;
       console.log(tempMean, tempMin, tempMax, binSize);
+      let bin1Count = 0;
+      let bin2Count = 0;
+      let bin3Count = 0;
+      let bin4Count = 0;
+      let bin5Count = 0;
+      let bin6Count = 0;
+      let bin7Count = 0;
+      let bin8Count = 0;
+      let bin9Count = 0;
+      let bin10Count = 0;
+
+      for (let i = 0; i < tempArray.length; i++) {
+        console.log(tempMin, binSize, tempArray[i]);
+        if(tempArray[i]<= (tempMin + binSize)){
+          bin1Count ++;
+        } else if (tempArray[i]<= (tempMin + 2*  binSize)){
+          bin2Count++;
+        }
+        console.log(bin1Count, bin2Count);
+        // switch (tempArray[i]) {
+        //   case (tempArray[i] < (tempMin + binSize)):
+        //     bin1Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 2 * binSize)):
+        //     bin2Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 3 * binSize)):
+        //     bin3Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 4 * binSize)):
+        //     bin4Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 5 * binSize)):
+        //     bin5Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 6 * binSize)):
+        //     bin6Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 7 * binSize)):
+        //     bin7Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 8 * binSize)):
+        //     bin8Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 9 * binSize)):
+        //     bin9Count++;
+        //     break;
+        //   case (tempArray[i] < (tempMin + 10 * binSize)):
+        //     bin10Count++;
+        //     break;
+        //   default:
+        //     console.log('error');
+        //     console.log(tempArray[i]);
+        //     console.log(tempMin + binSize);
+        //     console.log(tempArray[i] < (tempMin + binSize));
+        //     break;
+        // }
+      }
+
+      console.log(bin1Count, bin2Count, bin3Count, bin4Count, bin5Count, bin6Count, bin7Count, bin8Count, bin9Count, bin10Count);
+      //adding histogram stuff here
+
 
 
     }
