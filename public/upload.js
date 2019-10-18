@@ -93,14 +93,31 @@ function histogramGenerate(obj) {
       let bin9Count = 0;
       let bin10Count = 0;
 
-      for (let i = 0; i < tempArray.length; i++) {
+      for (let i = 0; i < tempArray.length -1; i++) {
         console.log(tempMin, binSize, tempArray[i]);
         if(tempArray[i]<= (tempMin + binSize)){
           bin1Count ++;
         } else if (tempArray[i]<= (tempMin + 2*  binSize)){
           bin2Count++;
+        }else if (tempArray[i]<= (tempMin + 3*  binSize)){
+          bin3Count++;
+        }else if (tempArray[i]<= (tempMin + 4*  binSize)){
+          bin4Count++;
+        }else if (tempArray[i]<= (tempMin + 5*  binSize)){
+          bin5Count++;
+        }else if (tempArray[i]<= (tempMin + 6*  binSize)){
+          bin6Count++;
+        }else if (tempArray[i]<= (tempMin + 7*  binSize)){
+          bin7Count++;
+        }else if (tempArray[i]<= (tempMin + 8*  binSize)){
+          bin8Count++;
+        }else if (tempArray[i]<= (tempMin + 9*  binSize)){
+          bin9Count++;
+        }else if (tempArray[i]<= (tempMin + 10*  binSize)){
+          bin10Count++;
         }
-        console.log(bin1Count, bin2Count);
+        
+        console.log(bin1Count, bin2Count, bin3Count, bin4Count, bin5Count, bin6Count, bin7Count, bin8Count, bin9Count, bin10Count);
         // switch (tempArray[i]) {
         //   case (tempArray[i] < (tempMin + binSize)):
         //     bin1Count++;
