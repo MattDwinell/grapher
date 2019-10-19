@@ -72,10 +72,11 @@ function histogramGenerate(obj) {
       let tempArray = [];
       obj.csvArray.map((item) => {
 
-        tempArray.push(item[i]);
+        tempArray.push(parseFloat(item[i]));
       })
       tempArray.shift();
       tempArray.sort((a, b) => a - b);
+      tempArray.shift();
       console.log(tempArray);
       let tempMean = parseFloat(d3.mean(tempArray).toString().substring(0, 5));
       let tempMin = parseFloat(d3.min(tempArray).toString().substring(0, 5));
@@ -93,73 +94,130 @@ function histogramGenerate(obj) {
       let bin9Count = 0;
       let bin10Count = 0;
 
-      for (let i = 0; i < tempArray.length -1; i++) {
+      for (let i = 0; i < tempArray.length - 1; i++) {
         console.log(tempMin, binSize, tempArray[i]);
-        if(tempArray[i]<= (tempMin + binSize)){
-          bin1Count ++;
-        } else if (tempArray[i]<= (tempMin + 2*  binSize)){
+        if (tempArray[i] <= (tempMin + binSize)) {
+          bin1Count++;
+        } else if (tempArray[i] <= (tempMin + 2 * binSize)) {
           bin2Count++;
-        }else if (tempArray[i]<= (tempMin + 3*  binSize)){
+        } else if (tempArray[i] <= (tempMin + 3 * binSize)) {
           bin3Count++;
-        }else if (tempArray[i]<= (tempMin + 4*  binSize)){
+        } else if (tempArray[i] <= (tempMin + 4 * binSize)) {
           bin4Count++;
-        }else if (tempArray[i]<= (tempMin + 5*  binSize)){
+        } else if (tempArray[i] <= (tempMin + 5 * binSize)) {
           bin5Count++;
-        }else if (tempArray[i]<= (tempMin + 6*  binSize)){
+        } else if (tempArray[i] <= (tempMin + 6 * binSize)) {
           bin6Count++;
-        }else if (tempArray[i]<= (tempMin + 7*  binSize)){
+        } else if (tempArray[i] <= (tempMin + 7 * binSize)) {
           bin7Count++;
-        }else if (tempArray[i]<= (tempMin + 8*  binSize)){
+        } else if (tempArray[i] <= (tempMin + 8 * binSize)) {
           bin8Count++;
-        }else if (tempArray[i]<= (tempMin + 9*  binSize)){
+        } else if (tempArray[i] <= (tempMin + 9 * binSize)) {
           bin9Count++;
-        }else if (tempArray[i]<= (tempMin + 10*  binSize)){
+        } else if (tempArray[i] <= (tempMin + 10 * binSize)) {
           bin10Count++;
         }
-        
-        console.log(bin1Count, bin2Count, bin3Count, bin4Count, bin5Count, bin6Count, bin7Count, bin8Count, bin9Count, bin10Count);
-        // switch (tempArray[i]) {
-        //   case (tempArray[i] < (tempMin + binSize)):
-        //     bin1Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 2 * binSize)):
-        //     bin2Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 3 * binSize)):
-        //     bin3Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 4 * binSize)):
-        //     bin4Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 5 * binSize)):
-        //     bin5Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 6 * binSize)):
-        //     bin6Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 7 * binSize)):
-        //     bin7Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 8 * binSize)):
-        //     bin8Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 9 * binSize)):
-        //     bin9Count++;
-        //     break;
-        //   case (tempArray[i] < (tempMin + 10 * binSize)):
-        //     bin10Count++;
-        //     break;
-        //   default:
-        //     console.log('error');
-        //     console.log(tempArray[i]);
-        //     console.log(tempMin + binSize);
-        //     console.log(tempArray[i] < (tempMin + binSize));
-        //     break;
-        // }
       }
+      let barData = [bin1Count, bin2Count, bin3Count, bin4Count, bin5Count, bin6Count, bin7Count, bin8Count, bin9Count, bin10Count];
+      var chartdata = [40, 60, 80, 100, 70, 120, 100, 60, 70, 150, 120, 140];
 
-      console.log(bin1Count, bin2Count, bin3Count, bin4Count, bin5Count, bin6Count, bin7Count, bin8Count, bin9Count, bin10Count);
+
+      var data = tempArray;
+
+      var formatCount = d3.format(",.0f");
+      
+      var svg = d3.select("svg"),
+          margin = {top: 10, right: 30, bottom: 30, left: 30},
+          width = +svg.attr("width") - margin.left - margin.right,
+          height = +svg.attr("height") - margin.top - margin.bottom,
+          g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      
+      var x = d3.scaleLinear()
+      .domain([tempMin, tempMax])
+          .range([0, width]);
+      
+      var bins = d3.histogram()
+          .domain(x.domain())
+          .thresholds(x.ticks(20))
+          (data);
+      
+      var y = d3.scaleLinear()
+          .domain([0, d3.max(bins, function(d) { return d.length; })])
+          .range([height, 0]);
+      
+      var bar = g.selectAll(".bar")
+        .data(bins)
+        .enter().append("g")
+          .attr("class", "bar")
+          .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
+      
+      bar.append("rect")
+          .attr("x", 1)
+          .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+          .attr("height", function(d) { return height - y(d.length); });
+      
+      bar.append("text")
+          .attr("dy", ".75em")
+          .attr("y", 6)
+          .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
+          .attr("text-anchor", "middle")
+          .text(function(d) { return formatCount(d.length); });
+      
+      g.append("g")
+          .attr("class", "axis axis--x")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+    //   console.log(barData)
+    //   var histogram = d3.histogram();
+    // var bins = histogram(tempArray);
+    // console.log(bins);
+
       //adding histogram stuff here
+//       var data = tempArray;
+
+// var formatCount = d3.format(",.0f");
+
+// var svg = d3.select("svg"),
+//     margin = {top: 10, right: 30, bottom: 30, left: 30},
+//     width = +svg.attr("width") - margin.left - margin.right,
+//     height = +svg.attr("height") - margin.top - margin.bottom,
+//     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// var x = d3.scaleLinear()
+//     .rangeRound([0, width]);
+
+// var bins = d3.histogram()
+//     .domain(x.domain())
+//     .thresholds(x.ticks(10))
+//     (data);
+//     console.log(bins);
+
+// var y = d3.scaleLinear()
+//     .domain([0, tempMax])
+//     .range([height, 0]);
+
+// var bar = g.selectAll(".bar")
+//   .data(bins)
+//   .enter().append("g")
+//     .attr("class", "bar")
+//     .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
+
+// bar.append("rect")
+//     .attr("x", 1)
+//     .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+//     .attr("height", function(d) { return height - y(d.length); });
+
+// bar.append("text")
+//     .attr("dy", ".75em")
+//     .attr("y", 6)
+//     .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
+//     .attr("text-anchor", "middle")
+//     .text(function(d) { return formatCount(d.length); });
+
+// g.append("g")
+//     .attr("class", "axis axis--x")
+//     .attr("transform", "translate(0," + height + ")")
+//     .call(d3.axisBottom(x));
 
 
 
