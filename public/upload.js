@@ -3,6 +3,19 @@ let masterObject = {
   colNames: [],
   colTypes: []
 }
+function svgclear(){
+  console.log('svg clear activated');
+  let currentsvgs = document.querySelector("svg");
+  console.log(currentsvgs);
+  currentsvgs.classList.remove("svg");
+  let nextsvg = document.createElement("svg");
+  nextsvg.style.width = "960";
+  nextsvg.style.height = "500";
+  nextsvg.classList.add("svg");
+  document.getElementById("histogram-wrapper").append(nextsvg);
+
+}
+
 function uploadDealcsv() { };
 
 /*------ Method for read uploded csv file ------*/
@@ -129,8 +142,8 @@ function histogramGenerate(obj) {
       var data = tempArray;
 
       var formatCount = d3.format(",.0f");
-      d3.selectAll("svg > *").remove();
-      var svg = d3.select("svg"),
+      // d3.selectAll("svg > *").remove();
+      var svg = d3.select(".svg"),
           margin = {top: 10, right: 30, bottom: 30, left: 30},
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom,
@@ -171,6 +184,8 @@ function histogramGenerate(obj) {
           .attr("class", "axis axis--x")
           .attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(x));
+
+          svgclear();
     //   console.log(barData)
     //   var histogram = d3.histogram();
     // var bins = histogram(tempArray);
