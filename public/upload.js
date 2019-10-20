@@ -120,12 +120,16 @@ function histogramGenerate(obj) {
       }
       let barData = [bin1Count, bin2Count, bin3Count, bin4Count, bin5Count, bin6Count, bin7Count, bin8Count, bin9Count, bin10Count];
       var chartdata = [40, 60, 80, 100, 70, 120, 100, 60, 70, 150, 120, 140];
+      let tempDiv = document.createElement("div").classList.add("wrapper");
+      document.getElementById("histogram-wrapper").append(tempDiv);
+      console.log(i);
+  
 
 
       var data = tempArray;
 
       var formatCount = d3.format(",.0f");
-      
+      d3.selectAll("svg > *").remove();
       var svg = d3.select("svg"),
           margin = {top: 10, right: 30, bottom: 30, left: 30},
           width = +svg.attr("width") - margin.left - margin.right,
