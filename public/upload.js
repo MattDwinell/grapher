@@ -5,9 +5,12 @@ let masterObject = {
 }
 function svgclear(){
   console.log('svg clear activated');
-  let currentsvgs = document.querySelector("svg");
+  let currentsvgs = document.getElementsByTagName("svg");
   console.log(currentsvgs);
-  currentsvgs.classList.remove("svg");
+  for (let i = 0; i< currentsvgs.length; i ++){
+    currentsvgs[i].classList.remove("svg");
+  }
+  console.log(currentsvgs);
   let nextsvg = document.createElement("svg");
   nextsvg.style.width = "960";
   nextsvg.style.height = "500";
