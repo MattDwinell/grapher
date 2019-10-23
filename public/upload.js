@@ -1,18 +1,18 @@
-let masterObject = {
+//declaring global variables
+var masterObject = {
   csvArray: [],
   colNames: [],
   colTypes: []
 }
 var svgIndex = ".svg1";
 var iterator = 1;
-
-function isNumber(arrayItem){
- return !isNaN(parseFloat(arrayItem)) && isFinite(arrayItem);
+//simple data cleaning function, removing anything that's not a number for quant fields
+function isNumber(arrayItem) {
+  return !isNaN(parseFloat(arrayItem)) && isFinite(arrayItem);
 }
 
-function uploadDealcsv() { };
-
 /*------ Method for read uploded csv file ------*/
+function uploadDealcsv() { };
 uploadDealcsv.prototype.getCsv = function (e) {
   let input = document.getElementById('dealCsv');
   input.addEventListener('change', function () {
@@ -20,6 +20,7 @@ uploadDealcsv.prototype.getCsv = function (e) {
     if (this.files && this.files[0]) {
 
       var myFile = this.files[0];
+
       var reader = new FileReader();
 
       reader.addEventListener('load', function (e) {
@@ -35,6 +36,7 @@ uploadDealcsv.prototype.getCsv = function (e) {
 
 /*------- Method for parse csv data and display --------------*/
 uploadDealcsv.prototype.getParsecsvdata = function (data) {
+  console.log(data);
 
   let parsedata = [];
 
@@ -45,6 +47,7 @@ uploadDealcsv.prototype.getParsecsvdata = function (data) {
   }
 
   console.table('csv uploaded, of length ' + parsedata.length);
+  console.log(parsedata);
   masterObject.csvArray = parsedata;
   masterObject.colNames = parsedata[0];
   typeSeparate(masterObject);
@@ -59,7 +62,8 @@ function typeSeparate(masterObject) {
   let reg = /^[a-zA-Z]/g;
   let colMap = masterObject.csvArray[1].map((col) => {
     let n = col.search(/[a-zA-Z]/i);
-    if (n == -1) {
+    let p = col.search(/[0-9]/i);
+    if (n == -1 && col.length >= 1 && p != -1) {
       return 'quant';
     }
     return 'qual'
@@ -76,9 +80,21 @@ function histogramGenerate(obj) {
       console.log(`${i}th column is quantitative`);
       let tempArray = [];
       obj.csvArray.map((item) => {
+        console.log(item[i]);
+        let n;
+        if (item[i]) {
+          n = item[i].search(/[0-9]/i);
 
-        tempArray.push(parseFloat(item[i]));
+
+          if (n != -1) {
+            item[i] = item[i].replace(/"/g, "");
+            tempArray.push(parseFloat(item[i]));
+          }
+        }
+
+        console.log(parseFloat(item[i]));
       })
+
       console.log(tempArray);
       tempArray = tempArray.filter(isNumber);
       tempArray.sort((a, b) => a - b);
@@ -93,9 +109,9 @@ function histogramGenerate(obj) {
       var formatCount = d3.format(",.0f");
       console.log(svgIndex);
       let svg = d3.select("#histogram-wrapper").append("svg")
-      .attr("class", "svg1")
-      .attr("width", 720)
-      .attr("height", 375);
+        .attr("class", "svg1")
+        .attr("width", 720)
+        .attr("height", 375);
       console.log(svg);
       var margin = { top: 10, right: 30, bottom: 30, left: 30 };
       var width = +svg.attr("width") - margin.left - margin.right;
@@ -123,7 +139,7 @@ function histogramGenerate(obj) {
 
       bar.append("rect")
         .attr("x", 1)
-        .attr("width", Math.abs( x(bins[0].x1) - x(bins[0].x0) - 1))
+        .attr("width", Math.abs(x(bins[0].x1) - x(bins[0].x0) - 1))
         .attr("height", function (d) { return height - y(d.length); });
 
       bar.append("text")
@@ -142,7 +158,7 @@ function histogramGenerate(obj) {
         .attr("y", 16 + (margin.top / 2))
         .attr("id", "text")
         .attr("text-anchor", "middle")
-        .text(obj.colNames[iterator-1]);
+        .text(obj.colNames[iterator - 1]);
       iterator++;
       svgIndex = ".svg" + iterator;
       console.log(svgIndex);
