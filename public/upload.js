@@ -283,20 +283,30 @@ var data = obj;
   svg.append("g")
     .call(d3.axisLeft(y));
 
-  // Bars
-  svg.selectAll("mybar")
-    .data(data)
-    .enter()
-    .append("rect")
-      .attr("x", function(d) { return x(d.Country); })
-      .attr("y", function(d) { return y(d.Value); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.Value); })
-      .attr("fill", "#69b3a2")
+var dmax = d3.max(data.values);
+
+    svg.selectAll("mybar")
+    .data(d3.values(data))
+    .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", x(data.colNames.map((item)=>item)))
+     //move the bar to the x position where it should appear
+    .attr("y", y(data.values.map((item)=>item))) //move the bar from the top down to the level of the value.
+    .attr("width", x.bandwidth() ) //the width of the bar is the width between the points on the x-axis 
+    .attr("height", y(dmax - data.values.map((item)=>item)))
+    // the height of the points is calculated based on the scale and the difference between this point and the max value of the data.
 
 
-
-
+  // // Bars
+  // svg.selectAll()
+  //   .data(data)
+  //   .enter()
+  //   .append("rect")
+  //     .attr("x", 200)
+  //     .attr("y", 50)
+  //     .attr("width", x.bandwidth())
+  //     .attr("height",  y(data.values))
+  //     .attr("fill", "#69b3a2")
 
 
 
