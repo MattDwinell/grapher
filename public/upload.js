@@ -168,7 +168,67 @@ function histogramGenerate(obj) {
       iterator++;
       svgIndex = ".svg" + iterator;
       // console.log(svgIndex);
+
+      //call to generate bar graph for counts of qualitative data
+    } else if (obj.colTypes[i] === 'qual') {
+      binSortForBar(obj, i)
     }
 
   }
+}
+//function for bar graph of counts for qualitative data
+function binSortForBar(obj, colNum) {
+  console.log(obj, colNum);
+  let tempArray = [];
+  obj.csvArray.map((item) => {
+    if (item[colNum]) {
+      tempArray.push(item[colNum]);
+    }
+  })
+  tempArray.shift();
+  //looping through our header-less array to determine how many different types of qual data there are
+  //will put a hard stop at 20 data types-- more than that and it is likely filled w/ unique values
+  var qualobj = {
+    colNames: []
+  }
+  console.log(tempArray);
+  let init = tempArray[0];
+  console.log(tempArray[0]);
+  qualobj.colNames.push(init);
+  console.log(qualobj);
+  qualobj[init] = 1;
+  console.log(qualobj);
+  for (let j = 1; j < tempArray.length; j++) {
+    if (qualobj.colNames.length < 21) {
+      for (let k = 0; k < qualobj.colNames.length; k++) {
+        if (tempArray[j] == qualobj.colNames[k]) {
+          let colBin = qualobj.colNames[k];
+          console.log(colBin);
+          qualobj[colBin]++;
+        } else if (qualobj.colNames.length - 1 === k) {
+          qualobj.colNames.push(tempArray[j]);
+          let attr = tempArray[j];
+          qualobj[attr] = 0;
+
+        }
+      }
+    } else {
+      console.log(`too many bins: ${qualobj.colNames.length}`);
+
+    }
+
+  }
+  var sum = 0;
+  qualobj.colNames.map((name) => {
+    sum += qualobj[name];
+  })
+  if (sum === tempArray.length){
+    console.log("20 or less bins, sum of bins equals array length");
+    generateBar(qualobj);
+  }
+  // tempArray.map
+}
+
+function generateBar(obj){
+  console.log(obj);
 }
