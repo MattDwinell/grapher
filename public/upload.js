@@ -137,11 +137,15 @@ function histogramGenerate(obj) {
       // document.getElementById("histogram-wrapper").append(tempDiv);
 
       var data = tempArray;
+      var tempSVG = document.createElement("svg");
 
       var formatCount = d3.format(",.0f");
       // d3.selectAll("svg > *").remove();
       console.log(svgIndex);
-      let svg = d3.select(svgIndex);
+      let svg = d3.select("#histogram-wrapper").append("svg")
+      .attr("class", "svg1")
+      .attr("width", 720)
+      .attr("height", 375);
       console.log(svg);
       var margin = { top: 10, right: 30, bottom: 30, left: 30 };
       var width = +svg.attr("width") - margin.left - margin.right;
