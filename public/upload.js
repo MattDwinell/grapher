@@ -80,7 +80,7 @@ function histogramGenerate(obj) {
       console.log(`${i}th column is quantitative`);
       let tempArray = [];
       obj.csvArray.map((item) => {
-        console.log(item[i]);
+// console.log(item[i])
         let n;
         if (item[i]) {
           n = item[i].search(/[0-9]/i);
@@ -92,13 +92,13 @@ function histogramGenerate(obj) {
           }
         }
 
-        console.log(parseFloat(item[i]));
+        // console.log(parseFloat(item[i]));
       })
 
-      console.log(tempArray);
+      // console.log(tempArray);
       tempArray = tempArray.filter(isNumber);
       tempArray.sort((a, b) => a - b);
-      console.log(tempArray);
+      // console.log(tempArray);
       let tempMean = parseFloat(d3.mean(tempArray).toString().substring(0, 5));
       let tempMin = parseFloat(d3.min(tempArray).toString().substring(0, 5));
       let tempMax = parseFloat(d3.max(tempArray).toString().substring(0, 5));
@@ -107,12 +107,12 @@ function histogramGenerate(obj) {
 
       var data = tempArray;
       var formatCount = d3.format(",.0f");
-      console.log(svgIndex);
+      // console.log(svgIndex);
       let svg = d3.select("#histogram-wrapper").append("svg")
         .attr("class", "svg1")
         .attr("width", 720)
         .attr("height", 375);
-      console.log(svg);
+      // console.log(svg);
       var margin = { top: 10, right: 30, bottom: 30, left: 30 };
       var width = +svg.attr("width") - margin.left - margin.right;
       var height = +svg.attr("height") - margin.top - margin.bottom;
@@ -139,7 +139,7 @@ function histogramGenerate(obj) {
 
       bar.append("rect")
         .attr("x", 1)
-        .attr("width", Math.abs(x(bins[0].x1) - x(bins[0].x0) - 1))
+        .attr("width", Math.abs(x(bins[0].x1) - x(bins[0].x0) -1 ))
         .attr("height", function (d) { return height - y(d.length); });
 
       bar.append("text")
@@ -161,7 +161,7 @@ function histogramGenerate(obj) {
         .text(obj.colNames[iterator - 1]);
       iterator++;
       svgIndex = ".svg" + iterator;
-      console.log(svgIndex);
+      // console.log(svgIndex);
     }
 
   }
