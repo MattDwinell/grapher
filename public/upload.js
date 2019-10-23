@@ -269,7 +269,7 @@ function generateBar(obj) {
   // X axis
   var x = d3.scaleBand()
     .range([0, width])
-    .domain(obj.colNames.map(function (obj) { return obj.colNames; }))
+    .domain(obj.colNames)
     .padding(0.2);
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
