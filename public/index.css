@@ -6,6 +6,10 @@
     fill: #fff;
     font: 10px sans-serif;
   }
+  .bar { fill: steelblue; }
+  .bar:hover{
+      fill: #bbdefb;
+  }
   svg{
       float: left;
       border: 2px outset;

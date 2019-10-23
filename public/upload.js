@@ -192,11 +192,10 @@ function binSortForBar(obj, colNum) {
     colNames: [],
     values: []
   }
-  console.log(tempArray);
+  // console.log(tempArray);
   let init = tempArray[0];
   console.log(tempArray[0]);
   qualobj.colNames.push(init);
-  console.log(qualobj);
   qualobj[init] = 1;
   console.log(qualobj);
   for (let j = 1; j < tempArray.length; j++) {
@@ -279,21 +278,40 @@ function generateBar(obj) {
     .style("text-anchor", "end");
 
   // Add Y axis
-  var y = d3.scaleLinear()
-    .domain([0, d3.max(obj.values)])
-    .range([height, 0]);
-  svg.append("g")
-    .call(d3.axisLeft(y));
+//   var y = d3.scaleLinear()
+//     .domain([0, d3.max(obj.values)])
+//     .range([height, 0]);
+//   svg.append("g")
+//     .call(d3.axisLeft(y));
+// var data = obj;
+//     svg.selectAll()
+//     .data(data)
+//     .enter()
+//     .append('rect')
+//     .attr('x', (obj) =>{ console.log(obj,);
+//      return  x(obj.colNames)})
+//     .attr('y', (s) => y(s))
+//     .attr('height', (s) => height - y(s))
+//     .attr('width', x.bandwidth())
+
+    // svg.selectAll("rect")
+    // .data(obj.values)
+    // .enter()
+    // .append("rect")
+    // .attr("height", 200)
+    // .attr("width", x.bandwith())
+    // .attr("x", function(d,i){return (i * 5) + 25})
+    // .attr("y",  20);
 
   // Bars
-  svg.selectAll("mybar")
-    .data(obj)
-    .enter()
-    .append("rect")
-    .attr("x", function (obj) { return x(obj.colNames); })
-    .attr("y", function (obj) { return y(obj.values); })
-    .attr("width", x.bandwidth())
-    .attr("height", function (obj) { return height - y(obj.Values); })
-    .attr("fill", "#69b3a2");
+  // svg.selectAll(".bar")
+  //    .data(obj)
+  //    .enter()
+  //   .append("rect")
+  //   .attr("x", obj.colNames)
+  //   .attr("y", obj.values)
+  //   .attr("width", x.bandwidth())
+  //   .attr("height", height - obj.values)
+  //   .attr("fill", "#69b3a2");
 
 }
