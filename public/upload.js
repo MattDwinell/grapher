@@ -5,20 +5,9 @@ let masterObject = {
 }
 var svgIndex = ".svg1";
 var iterator = 1;
-function svgclear() {
-  console.log('svg clear activated');
-  let currentsvgs = document.getElementsByTagName("svg");
-  console.log(currentsvgs);
-  for (let i = 0; i < currentsvgs.length; i++) {
-    currentsvgs[i].classList.remove("svg");
-  }
-  console.log(currentsvgs);
-  let nextsvg = document.createElement("svg");
-  nextsvg.style.width = "960";
-  nextsvg.style.height = "500";
-  nextsvg.classList.add("svg");
-  document.getElementById("histogram-wrapper").append(nextsvg);
 
+function isNumber(arrayItem){
+ return !isNaN(parseFloat(arrayItem)) && isFinite(arrayItem);
 }
 
 function uploadDealcsv() { };
@@ -81,6 +70,7 @@ function typeSeparate(masterObject) {
 }
 
 function histogramGenerate(obj) {
+  console.log(obj)
   for (let i = 0; i < obj.colTypes.length; i++) {
     if (obj.colTypes[i] === 'quant') {
       console.log(`${i}th column is quantitative`);
@@ -89,9 +79,11 @@ function histogramGenerate(obj) {
 
         tempArray.push(parseFloat(item[i]));
       })
-      tempArray.shift();
+      console.log(tempArray);
+      tempArray = tempArray.filter(isNumber);
+      // tempArray.shift();
       tempArray.sort((a, b) => a - b);
-      tempArray.shift();
+      // tempArray.shift();
       console.log(tempArray);
       let tempMean = parseFloat(d3.mean(tempArray).toString().substring(0, 5));
       let tempMin = parseFloat(d3.min(tempArray).toString().substring(0, 5));
@@ -173,7 +165,7 @@ function histogramGenerate(obj) {
 
       bar.append("rect")
         .attr("x", 1)
-        .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+        .attr("width", Math.abs( x(bins[0].x1) - x(bins[0].x0) - 1))
         .attr("height", function (d) { return height - y(d.length); });
 
       bar.append("text")
