@@ -5,3 +5,4 @@ It then generates histograms for each quantitative field based on Sturge's formu
 Future iterations of grapher will include association scatterplots for quantitative variables, as well as 
 bar charts grouping counts of qualitative variables.
 See the story the data tells you without writing the Preamble. Use Grapher.
+-Created by Matthew Dwinell, utilizing the d3 library

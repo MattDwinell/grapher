@@ -6,12 +6,13 @@ var masterObject = {
 }
 var svgIndex = ".svg1";
 var iterator = 1;
-//simple data cleaning function, removing anything that's not a number for quant fields
+
+//simple data cleaning function, removing anything that's not a number for quant fields.
 function isNumber(arrayItem) {
   return !isNaN(parseFloat(arrayItem)) && isFinite(arrayItem);
 }
 
-/*------ Method for read uploded csv file ------*/
+//method to read an uploaded csv file. takes file and inserts it into csv parse method
 function uploadDealcsv() { };
 uploadDealcsv.prototype.getCsv = function (e) {
   let input = document.getElementById('dealCsv');
@@ -34,9 +35,9 @@ uploadDealcsv.prototype.getCsv = function (e) {
   });
 }
 
-/*------- Method for parse csv data and display --------------*/
+//method to parse csv based on commas. can now manipulate data as a series of arrays.
 uploadDealcsv.prototype.getParsecsvdata = function (data) {
-  console.log(data);
+  // console.log(data);
 
   let parsedata = [];
 
@@ -47,7 +48,7 @@ uploadDealcsv.prototype.getParsecsvdata = function (data) {
   }
 
   console.table('csv uploaded, of length ' + parsedata.length);
-  console.log(parsedata);
+  // console.log(parsedata);
   masterObject.csvArray = parsedata;
   masterObject.colNames = parsedata[0];
   typeSeparate(masterObject);
@@ -55,6 +56,7 @@ uploadDealcsv.prototype.getParsecsvdata = function (data) {
 var parseCsv = new uploadDealcsv();
 parseCsv.getCsv();
 
+//method to determine if a field is quantitative or qualitative by looking at the second row of data.
 function typeSeparate(masterObject) {
   // console.log(masterObject);
   let columnNames = masterObject.colNames;
@@ -73,6 +75,7 @@ function typeSeparate(masterObject) {
   histogramGenerate(masterObject);
 }
 
+//checks each field to see if it is quantitative. if it is, it creates a preliminary histogram with the help of d3
 function histogramGenerate(obj) {
   console.log(obj)
   for (let i = 0; i < obj.colTypes.length; i++) {
@@ -80,7 +83,7 @@ function histogramGenerate(obj) {
       console.log(`${i}th column is quantitative`);
       let tempArray = [];
       obj.csvArray.map((item) => {
-// console.log(item[i])
+        // console.log(item[i])
         let n;
         if (item[i]) {
           n = item[i].search(/[0-9]/i);
@@ -99,12 +102,15 @@ function histogramGenerate(obj) {
       tempArray = tempArray.filter(isNumber);
       tempArray.sort((a, b) => a - b);
       // console.log(tempArray);
+
+      //the to string and substring methods being called here are to truncate the values to five sig figs
       let tempMean = parseFloat(d3.mean(tempArray).toString().substring(0, 5));
       let tempMin = parseFloat(d3.min(tempArray).toString().substring(0, 5));
       let tempMax = parseFloat(d3.max(tempArray).toString().substring(0, 5));
       let binSize = (tempMax - tempMin) / 10;
       console.log(tempMean, tempMin, tempMax, binSize);
 
+      //creating the actual histogram, using temp array as our data
       var data = tempArray;
       var formatCount = d3.format(",.0f");
       // console.log(svgIndex);
@@ -139,7 +145,7 @@ function histogramGenerate(obj) {
 
       bar.append("rect")
         .attr("x", 1)
-        .attr("width", Math.abs(x(bins[0].x1) - x(bins[0].x0) -1 ))
+        .attr("width", Math.abs(x(bins[0].x1) - x(bins[0].x0) - 1))
         .attr("height", function (d) { return height - y(d.length); });
 
       bar.append("text")
