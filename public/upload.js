@@ -183,8 +183,6 @@ function histogramGenerate(obj) {
         .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
-console.log(obj.colNames);
-console.log(obj.colNames[iterator]);
       svg.append("text")
         .attr("x", (width / 2))
         .attr("y", 16 + (margin.top / 2))

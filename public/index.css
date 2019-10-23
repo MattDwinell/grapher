@@ -8,6 +8,8 @@
   }
   svg{
       float: left;
+      border: 2px outset;
+      margin: 5px;
 
   }
   svg>#text{
