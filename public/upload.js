@@ -3,6 +3,8 @@ let masterObject = {
   colNames: [],
   colTypes: []
 }
+var svgIndex = ".svg1";
+var iterator = 1;
 function svgclear(){
   console.log('svg clear activated');
   let currentsvgs = document.getElementsByTagName("svg");
@@ -62,21 +64,18 @@ var parseCsv = new uploadDealcsv();
 parseCsv.getCsv();
 
 function typeSeparate(masterObject) {
-  console.log(masterObject);
+  // console.log(masterObject);
   let columnNames = masterObject.colNames;
-  console.log(columnNames);
+  // console.log(columnNames);
   let reg = /^[a-zA-Z]/g;
   let colMap = masterObject.csvArray[1].map((col) => {
-    console.log(col.match(reg));
     let n = col.search(/[a-zA-Z]/i);
-    console.log('search results:' + n)
     if (n == -1) {
       return 'quant';
     }
     return 'qual'
 
   })
-  console.log(colMap);
   masterObject.colTypes = colMap;
   histogramGenerate(masterObject);
 }
@@ -111,7 +110,6 @@ function histogramGenerate(obj) {
       let bin10Count = 0;
 
       for (let i = 0; i < tempArray.length - 1; i++) {
-        console.log(tempMin, binSize, tempArray[i]);
         if (tempArray[i] <= (tempMin + binSize)) {
           bin1Count++;
         } else if (tempArray[i] <= (tempMin + 2 * binSize)) {
@@ -135,23 +133,21 @@ function histogramGenerate(obj) {
         }
       }
       let barData = [bin1Count, bin2Count, bin3Count, bin4Count, bin5Count, bin6Count, bin7Count, bin8Count, bin9Count, bin10Count];
-      var chartdata = [40, 60, 80, 100, 70, 120, 100, 60, 70, 150, 120, 140];
-      let tempDiv = document.createElement("div").classList.add("wrapper");
-      document.getElementById("histogram-wrapper").append(tempDiv);
-      console.log(i);
-  
-
+      // let tempDiv = document.createElement("div").classList.add("wrapper");
+      // document.getElementById("histogram-wrapper").append(tempDiv);
 
       var data = tempArray;
 
       var formatCount = d3.format(",.0f");
       // d3.selectAll("svg > *").remove();
-      var svg = d3.select(".svg"),
-          margin = {top: 10, right: 30, bottom: 30, left: 30},
-          width = +svg.attr("width") - margin.left - margin.right,
-          height = +svg.attr("height") - margin.top - margin.bottom,
-          g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      
+      console.log(svgIndex);
+      let svg = d3.select(svgIndex);
+        console.log(svg);
+         var margin = {top: 10, right: 30, bottom: 30, left: 30};
+        var width = +svg.attr("width") - margin.left - margin.right;
+       var height = +svg.attr("height") - margin.top - margin.bottom;
+        var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
       var x = d3.scaleLinear()
       .domain([tempMin, tempMax])
           .range([0, width]);
@@ -187,8 +183,11 @@ function histogramGenerate(obj) {
           .attr("class", "axis axis--x")
           .attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(x));
+          svgIndex = ".svg"+iterator;
+          iterator++;
+          console.log(svgIndex);
 
-          svgclear();
+          // svgclear();
     //   console.log(barData)
     //   var histogram = d3.histogram();
     // var bins = histogram(tempArray);
