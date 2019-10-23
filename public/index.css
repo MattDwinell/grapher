@@ -8,5 +8,13 @@
   }
   svg{
       float: left;
-      
+
+  }
+  svg>#text{
+      font-size: 16px;
+      text-decoration: underline;
+      font-weight: bold;
+      opacity: .75;
+      fill:black; 
+      text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
   }

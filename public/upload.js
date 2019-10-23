@@ -5,11 +5,11 @@ let masterObject = {
 }
 var svgIndex = ".svg1";
 var iterator = 1;
-function svgclear(){
+function svgclear() {
   console.log('svg clear activated');
   let currentsvgs = document.getElementsByTagName("svg");
   console.log(currentsvgs);
-  for (let i = 0; i< currentsvgs.length; i ++){
+  for (let i = 0; i < currentsvgs.length; i++) {
     currentsvgs[i].classList.remove("svg");
   }
   console.log(currentsvgs);
@@ -142,103 +142,115 @@ function histogramGenerate(obj) {
       // d3.selectAll("svg > *").remove();
       console.log(svgIndex);
       let svg = d3.select(svgIndex);
-        console.log(svg);
-         var margin = {top: 10, right: 30, bottom: 30, left: 30};
-        var width = +svg.attr("width") - margin.left - margin.right;
-       var height = +svg.attr("height") - margin.top - margin.bottom;
-        var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+      console.log(svg);
+      var margin = { top: 10, right: 30, bottom: 30, left: 30 };
+      var width = +svg.attr("width") - margin.left - margin.right;
+      var height = +svg.attr("height") - margin.top - margin.bottom;
+      var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
       var x = d3.scaleLinear()
-      .domain([tempMin, tempMax])
-          .range([0, width]);
-      
+        .domain([tempMin, tempMax])
+        .range([0, width]);
+
       var bins = d3.histogram()
-          .domain(x.domain())
-          .thresholds(x.ticks(20))
-          (data);
-      
+        .domain(x.domain())
+        .thresholds(x.ticks(20))
+        (data);
+
       var y = d3.scaleLinear()
-          .domain([0, d3.max(bins, function(d) { return d.length; })])
-          .range([height, 0]);
-      
+        .domain([0, d3.max(bins, function (d) { return d.length; })])
+        .range([height, 0]);
+
       var bar = g.selectAll(".bar")
         .data(bins)
         .enter().append("g")
-          .attr("class", "bar")
-          .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
-      
-      bar.append("rect")
-          .attr("x", 1)
-          .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
-          .attr("height", function(d) { return height - y(d.length); });
-      
-      bar.append("text")
-          .attr("dy", ".75em")
-          .attr("y", 6)
-          .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
-          .attr("text-anchor", "middle")
-          .text(function(d) { return formatCount(d.length); });
-      
-      g.append("g")
-          .attr("class", "axis axis--x")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(x));
-          iterator++;
-          svgIndex = ".svg"+iterator;
-          console.log(svgIndex);
+        .attr("class", "bar")
+        .attr("transform", function (d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
 
-          // svgclear();
-    //   console.log(barData)
-    //   var histogram = d3.histogram();
-    // var bins = histogram(tempArray);
-    // console.log(bins);
+      bar.append("rect")
+        .attr("x", 1)
+        .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+        .attr("height", function (d) { return height - y(d.length); });
+
+      bar.append("text")
+        .attr("dy", ".75em")
+        .attr("y", 6)
+        .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
+        .attr("text-anchor", "middle")
+        .text(function (d) { return formatCount(d.length); });
+
+      g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+console.log(obj.colNames);
+console.log(obj.colNames[iterator]);
+      svg.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 16 + (margin.top / 2))
+        .attr("id", "text")
+        .attr("text-anchor", "middle")
+        .text(obj.colNames[iterator-1]);
+
+
+      iterator++;
+      svgIndex = ".svg" + iterator;
+      console.log(svgIndex);
+
+
+
+      // svgclear();
+      //   console.log(barData)
+      //   var histogram = d3.histogram();
+      // var bins = histogram(tempArray);
+      // console.log(bins);
 
       //adding histogram stuff here
-//       var data = tempArray;
+      //       var data = tempArray;
 
-// var formatCount = d3.format(",.0f");
+      // var formatCount = d3.format(",.0f");
 
-// var svg = d3.select("svg"),
-//     margin = {top: 10, right: 30, bottom: 30, left: 30},
-//     width = +svg.attr("width") - margin.left - margin.right,
-//     height = +svg.attr("height") - margin.top - margin.bottom,
-//     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      // var svg = d3.select("svg"),
+      //     margin = {top: 10, right: 30, bottom: 30, left: 30},
+      //     width = +svg.attr("width") - margin.left - margin.right,
+      //     height = +svg.attr("height") - margin.top - margin.bottom,
+      //     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// var x = d3.scaleLinear()
-//     .rangeRound([0, width]);
+      // var x = d3.scaleLinear()
+      //     .rangeRound([0, width]);
 
-// var bins = d3.histogram()
-//     .domain(x.domain())
-//     .thresholds(x.ticks(10))
-//     (data);
-//     console.log(bins);
+      // var bins = d3.histogram()
+      //     .domain(x.domain())
+      //     .thresholds(x.ticks(10))
+      //     (data);
+      //     console.log(bins);
 
-// var y = d3.scaleLinear()
-//     .domain([0, tempMax])
-//     .range([height, 0]);
+      // var y = d3.scaleLinear()
+      //     .domain([0, tempMax])
+      //     .range([height, 0]);
 
-// var bar = g.selectAll(".bar")
-//   .data(bins)
-//   .enter().append("g")
-//     .attr("class", "bar")
-//     .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
+      // var bar = g.selectAll(".bar")
+      //   .data(bins)
+      //   .enter().append("g")
+      //     .attr("class", "bar")
+      //     .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
 
-// bar.append("rect")
-//     .attr("x", 1)
-//     .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
-//     .attr("height", function(d) { return height - y(d.length); });
+      // bar.append("rect")
+      //     .attr("x", 1)
+      //     .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+      //     .attr("height", function(d) { return height - y(d.length); });
 
-// bar.append("text")
-//     .attr("dy", ".75em")
-//     .attr("y", 6)
-//     .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
-//     .attr("text-anchor", "middle")
-//     .text(function(d) { return formatCount(d.length); });
+      // bar.append("text")
+      //     .attr("dy", ".75em")
+      //     .attr("y", 6)
+      //     .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
+      //     .attr("text-anchor", "middle")
+      //     .text(function(d) { return formatCount(d.length); });
 
-// g.append("g")
-//     .attr("class", "axis axis--x")
-//     .attr("transform", "translate(0," + height + ")")
-//     .call(d3.axisBottom(x));
+      // g.append("g")
+      //     .attr("class", "axis axis--x")
+      //     .attr("transform", "translate(0," + height + ")")
+      //     .call(d3.axisBottom(x));
 
 
 
