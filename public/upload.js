@@ -286,14 +286,13 @@ var data = obj;
 var dmax = d3.max(data.values);
 
     svg.selectAll("mybar")
-    .data(d3.values(data))
+    .data(d3.values(data.values))
     .enter().append("rect")
     .attr("class", "bar")
-    .attr("x", x(data.colNames.map((item)=>item)))
-     //move the bar to the x position where it should appear
-    .attr("y", y(data.values.map((item)=>item))) //move the bar from the top down to the level of the value.
+    .attr("x", function(data) { return x(data); })
+    .attr("y", function(data) { return y(data); })
     .attr("width", x.bandwidth() ) //the width of the bar is the width between the points on the x-axis 
-    .attr("height", y(dmax - data.values.map((item)=>item)))
+    .attr("height", function(data){return  y(dmax - data)})
     // the height of the points is calculated based on the scale and the difference between this point and the max value of the data.
 
 
