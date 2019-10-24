@@ -236,6 +236,14 @@ function binSortForBar(obj, colNum) {
       }
     }
     console.log(qualobj);
+    qualobj.d3Array = [];
+    for(let i = 0; i<qualobj.colNames.length; i ++){
+      let tempObj = {
+        key: qualobj.colNames[i],
+        value: qualobj.values[i]
+      }
+qualobj.d3Array.push(tempObj);
+    }
     generateBar(qualobj);
   }
   // tempArray.map
@@ -284,12 +292,14 @@ var data = obj;
     .call(d3.axisLeft(y));
 
 var dmax = d3.max(data.values);
-
+var testArray = [1,2,3];
     svg.selectAll("mybar")
     .data(d3.values(data.values))
     .enter().append("rect")
     .attr("class", "bar")
-    .attr("x", function(data) { return x(data); })
+    .attr("x", function(d) { 
+      console.log(y(d));
+      return y(d); })
     .attr("y", function(data) { return y(data); })
     .attr("width", x.bandwidth() ) //the width of the bar is the width between the points on the x-axis 
     .attr("height", function(data){return  y(dmax - data)})
