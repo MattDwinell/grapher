@@ -176,7 +176,7 @@ function histogramGenerate(obj) {
   .duration(800)
    .attr("y", function(d) { return 0; })
   .attr("height", function(d) { return (height - y(d.length)); })
-  .delay(function(d,i){console.log(i) ; return(i*100)})
+  .delay(function(d,i){ return(i*100)})
 
       //call to generate bar graph for counts of qualitative data
     } else if (obj.colTypes[i] === 'qual') {
@@ -188,6 +188,7 @@ function histogramGenerate(obj) {
 //function for bar graph of counts for qualitative data
 function binSortForBar(obj, colNum) {
   console.log(obj, colNum);
+ 
   let tempArray = [];
   obj.csvArray.map((item) => {
     if (item[colNum]) {
@@ -253,6 +254,7 @@ function binSortForBar(obj, colNum) {
       }
 qualobj.d3Array.push(tempObj);
     }
+    qualobj.title =  obj.colNames[colNum];
     generateBar(qualobj);
   }
   // tempArray.map
@@ -302,10 +304,11 @@ var data = obj;
     console.log(x);
 let xBands = [];
 for (let i=0;i<obj.colNames.length; i++){
-  xBands.push(i * width/obj.colNames.length);
+  xBands.push(margin.left/2 + i * width/obj.colNames.length);
 }
 console.log(xBands);
 let xCounter = -1;
+
 
 var dmax = d3.max(data.values);
 var testArray = [1,2,3];
@@ -320,18 +323,14 @@ var testArray = [1,2,3];
     .attr("width", x.bandwidth() ) //the width of the bar is the width between the points on the x-axis 
     .attr("height", function(data){return  y(dmax - data)})
     // the height of the points is calculated based on the scale and the difference between this point and the max value of the data.
-
-
-  // // Bars
-  // svg.selectAll()
-  //   .data(data)
-  //   .enter()
-  //   .append("rect")
-  //     .attr("x", 200)
-  //     .attr("y", 50)
-  //     .attr("width", x.bandwidth())
-  //     .attr("height",  y(data.values))
-  //     .attr("fill", "#69b3a2")
+//adding a title!
+svg.append("text")
+.attr("x", (width / 2))
+.attr("y", 16 + (margin.top / 2))
+.attr("height", 32)
+.attr("id", "bar-text")
+.attr("text-anchor", "middle")
+.text(obj.title);
 
 
 
