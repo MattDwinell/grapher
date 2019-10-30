@@ -10,6 +10,9 @@
   .bar:hover{
       fill: #bbdefb;
   }
+  .bar rect:hover{
+      fill:steelblue;
+  }
   svg{
       float: left;
       border: 2px outset;

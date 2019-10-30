@@ -168,6 +168,12 @@ function histogramGenerate(obj) {
       iterator++;
       svgIndex = ".svg" + iterator;
       // console.log(svgIndex);
+  //     svg.selectAll("rect")
+  // .transition()
+  // .duration(800)
+  // .attr("y", function(d) { return y(d.length); })
+  // .attr("height", function(d) { return height - y(d.length); })
+  // .delay(function(d,i){console.log(i) ; return(i*100)})
 
       //call to generate bar graph for counts of qualitative data
     } else if (obj.colTypes[i] === 'qual') {
@@ -290,6 +296,13 @@ var data = obj;
     .range([ height, 0]);
   svg.append("g")
     .call(d3.axisLeft(y));
+    console.log(x);
+let xBands = [];
+for (let i=0;i<obj.colNames.length; i++){
+  xBands.push(i * width/obj.colNames.length);
+}
+console.log(xBands);
+let xCounter = -1;
 
 var dmax = d3.max(data.values);
 var testArray = [1,2,3];
@@ -297,9 +310,9 @@ var testArray = [1,2,3];
     .data(d3.values(data.values))
     .enter().append("rect")
     .attr("class", "bar")
-    .attr("x", function(d) { 
-      console.log(y(d));
-      return y(d); })
+    .attr("x", function() { 
+      xCounter++;
+      return (xBands[xCounter]); })
     .attr("y", function(data) { return y(data); })
     .attr("width", x.bandwidth() ) //the width of the bar is the width between the points on the x-axis 
     .attr("height", function(data){return  y(dmax - data)})
