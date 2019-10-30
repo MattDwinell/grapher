@@ -41,4 +41,5 @@
   .stats-text{
       text-align: right;
       font-weight: 550;
+      opacity: .85;
   }

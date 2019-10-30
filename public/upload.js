@@ -2,7 +2,9 @@
 var masterObject = {
   csvArray: [],
   colNames: [],
-  colTypes: []
+  colTypes: [],
+  cleanQuantArrays: [],
+  cleanQuantTitles: []
 }
 var svgIndex = ".svg1";
 var iterator = 1;
@@ -99,23 +101,25 @@ function histogramGenerate(obj) {
       })
 
       // console.log(tempArray);
+      masterObject.cleanQuantArrays.push(tempArray);
+      masterObject.cleanQuantTitles.push(obj.colNames[i])
+      console.log(masterObject);
       tempArray = tempArray.filter(isNumber);
       tempArray.sort((a, b) => a - b);
-      ;
 
       //the tostring and substring methods being called here are to truncate the values to five sig figs
       let tempMean = parseFloat(d3.mean(tempArray).toString().substring(0, 5));
       let tempMin = parseFloat(d3.min(tempArray).toString().substring(0, 5));
       let tempMax = parseFloat(d3.max(tempArray).toString().substring(0, 5));
       let binSize = (tempMax - tempMin) / 10;
-      console.log(tempMean, tempMin, tempMax, binSize);
+      // console.log(tempMean, tempMin, tempMax, binSize);
 
       //stats tests go here
  let kurtosis = kurtosisCheck(tempArray).toString().substring(0,6);
  kurtosis = "Kurtosis: " + kurtosis;
- console.log(kurtosis);
+//  console.log(kurtosis);
  let skewness = skewnessCheck(tempArray).toString().substring(0,6);
- console.log('skewness:' + skewness);
+//  console.log('skewness:' + skewness);
  skewness = "Skewness " + skewness;
  let rangeText = "Range: " + tempMin + '-' + tempMax;
  let median;
@@ -125,7 +129,7 @@ meadian =  tempArray[Math.floor(tempArray.length/2)];
 median = (tempArray[Math.floor(tempArray.length/2 -1)] + tempArray[Math.floor(tempArray.length/2)])/2
  }
  median = 'Median: ' + median;
- console.log(rangeText, median);
+//  console.log(rangeText, median);
 
 
 
@@ -233,7 +237,7 @@ median = (tempArray[Math.floor(tempArray.length/2 -1)] + tempArray[Math.floor(te
 }
 //function for bar graph of counts for qualitative data
 function binSortForBar(obj, colNum) {
-  console.log(obj, colNum);
+  // console.log(obj, colNum);
  
   let tempArray = [];
   obj.csvArray.map((item) => {
@@ -250,16 +254,16 @@ function binSortForBar(obj, colNum) {
   }
   // console.log(tempArray);
   let init = tempArray[0];
-  console.log(tempArray[0]);
+  // console.log(tempArray[0]);
   qualobj.colNames.push(init);
   qualobj[init] = 1;
-  console.log(qualobj);
+  // console.log(qualobj);
   for (let j = 1; j < tempArray.length; j++) {
     if (qualobj.colNames.length < 21) {
       for (let k = 0; k < qualobj.colNames.length; k++) {
         if (tempArray[j] == qualobj.colNames[k]) {
           let colBin = qualobj.colNames[k];
-          console.log(colBin);
+          // console.log(colBin);
           qualobj[colBin]++;
         } else if (qualobj.colNames.length - 1 === k) {
           qualobj.colNames.push(tempArray[j]);
@@ -291,7 +295,7 @@ function binSortForBar(obj, colNum) {
 
       }
     }
-    console.log(qualobj);
+    // console.log(qualobj);
     qualobj.d3Array = [];
     for(let i = 0; i<qualobj.colNames.length; i ++){
       let tempObj = {
@@ -307,7 +311,7 @@ qualobj.d3Array.push(tempObj);
 }
 
 function generateBar(obj) {
-  console.log(obj);
+  // console.log(obj);
 
 
 
@@ -347,12 +351,12 @@ var data = obj;
     .range([ height, 0]);
   svg.append("g")
     .call(d3.axisLeft(y));
-    console.log(x);
+    // console.log(x);
 let xBands = [];
 for (let i=0;i<obj.colNames.length; i++){
   xBands.push(margin.left/2 + i * width/obj.colNames.length);
 }
-console.log(xBands);
+// console.log(xBands);
 let xCounter = -1;
 
 
@@ -377,11 +381,6 @@ svg.append("text")
 .attr("text-anchor", "middle")
 .text(obj.title);
 }
-
-
-
-
-
 
 //stats functions
 
