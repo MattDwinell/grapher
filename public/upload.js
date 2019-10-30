@@ -101,14 +101,33 @@ function histogramGenerate(obj) {
       // console.log(tempArray);
       tempArray = tempArray.filter(isNumber);
       tempArray.sort((a, b) => a - b);
-      // console.log(tempArray);
+      ;
 
-      //the to string and substring methods being called here are to truncate the values to five sig figs
+      //the tostring and substring methods being called here are to truncate the values to five sig figs
       let tempMean = parseFloat(d3.mean(tempArray).toString().substring(0, 5));
       let tempMin = parseFloat(d3.min(tempArray).toString().substring(0, 5));
       let tempMax = parseFloat(d3.max(tempArray).toString().substring(0, 5));
       let binSize = (tempMax - tempMin) / 10;
       console.log(tempMean, tempMin, tempMax, binSize);
+
+      //stats tests go here
+ let kurtosis = kurtosisCheck(tempArray).toString().substring(0,6);
+ kurtosis = "Kurtosis: " + kurtosis;
+ console.log(kurtosis);
+ let skewness = skewnessCheck(tempArray).toString().substring(0,6);
+ console.log('skewness:' + skewness);
+ skewness = "Skewness " + skewness;
+ let rangeText = "Range: " + tempMin + '-' + tempMax;
+ let median;
+ if(tempArray.length/2 % 2 ===0){
+meadian =  tempArray[Math.floor(tempArray.length/2)];
+ } else {
+median = (tempArray[Math.floor(tempArray.length/2 -1)] + tempArray[Math.floor(tempArray.length/2)])/2
+ }
+ median = 'Median: ' + median;
+ console.log(rangeText, median);
+
+
 
       //creating the actual histogram, using temp array as our data
       var data = tempArray;
@@ -168,6 +187,33 @@ function histogramGenerate(obj) {
         .attr("id", "text")
         .attr("text-anchor", "middle")
         .text(obj.colNames[iterator - 1]);
+//adding stats to right side of histogram:
+      svg.append("text")
+      .attr("x", (9 * width/10))
+      .attr("y", 16 + margin.top/2)
+      .attr("class", "stats-text")
+      .attr("text-anchor", "right")
+      .text(rangeText);
+      svg.append("text")
+      .attr("x", (9 * width/10))
+      .attr("y", 30 + margin.top/2)
+      .attr("class", "stats-text")
+      .attr("text-anchor", "right")
+      .text(median);
+      svg.append("text")
+      .attr("x", (9 * width/10))
+      .attr("y", 44 + margin.top/2)
+      .attr("class", "stats-text")
+      .attr("text-anchor", "right")
+      .text(skewness);
+      svg.append("text")
+      .attr("x", (9 * width/10))
+      .attr("y", 58 + margin.top/2)
+      .attr("class", "stats-text")
+      .attr("text-anchor", "right")
+      .text(kurtosis);
+
+
       iterator++;
       svgIndex = ".svg" + iterator;
       // console.log(svgIndex);
@@ -311,7 +357,6 @@ let xCounter = -1;
 
 
 var dmax = d3.max(data.values);
-var testArray = [1,2,3];
     svg.selectAll("mybar")
     .data(d3.values(data.values))
     .enter().append("rect")
@@ -331,80 +376,48 @@ svg.append("text")
 .attr("id", "bar-text")
 .attr("text-anchor", "middle")
 .text(obj.title);
-
-
-
-
-
-
-  // var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-  //   width = 460 - margin.left - margin.right,
-  //   height = 400 - margin.top - margin.bottom;
-
-  //appending an svg element to the bar wrapper div
-  // var svg = d3.select("#bar-wrapper")
-  //   .append("svg")
-  //   .attr("width", width + margin.left + margin.right)
-  //   .attr("height", height + margin.top + margin.bottom)
-  //   .append("g")
-  //   .attr("transform",
-  //     "translate(" + margin.left + "," + margin.top + ")");
-
-  // Parse the Data
-  // d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv", function(data) {
-
-  // sort data
-  // data.sort(function(b, a) {
-  // return a.Value - b.Value;
-  // });
-
-  // X axis
-  // var x = d3.scaleBand()
-  //   .range([0, width])
-  //   .domain(obj.colNames)
-  //   .padding(0.2);
-  // svg.append("g")
-  //   .attr("transform", "translate(0," + height + ")")
-  //   .call(d3.axisBottom(x))
-  //   .selectAll("text")
-  //   .attr("transform", "translate(-10,0)rotate(-45)")
-  //   .style("text-anchor", "end");
-
-  // Add Y axis
-//   var y = d3.scaleLinear()
-//     .domain([0, d3.max(obj.values)])
-//     .range([height, 0]);
-//   svg.append("g")
-//     .call(d3.axisLeft(y));
-// var data = obj;
-//     svg.selectAll()
-//     .data(data)
-//     .enter()
-//     .append('rect')
-//     .attr('x', (obj) =>{ console.log(obj,);
-//      return  x(obj.colNames)})
-//     .attr('y', (s) => y(s))
-//     .attr('height', (s) => height - y(s))
-//     .attr('width', x.bandwidth())
-
-    // svg.selectAll("rect")
-    // .data(obj.values)
-    // .enter()
-    // .append("rect")
-    // .attr("height", 200)
-    // .attr("width", x.bandwith())
-    // .attr("x", function(d,i){return (i * 5) + 25})
-    // .attr("y",  20);
-
-  // Bars
-  // svg.selectAll(".bar")
-  //    .data(obj)
-  //    .enter()
-  //   .append("rect")
-  //   .attr("x", obj.colNames)
-  //   .attr("y", obj.values)
-  //   .attr("width", x.bandwidth())
-  //   .attr("height", height - obj.values)
-  //   .attr("fill", "#69b3a2");
-
 }
+
+
+
+
+
+
+//stats functions
+
+//kurtosis
+ function kurtosisCheck(numbers) {
+  var mean = d3.mean(numbers),
+      sum4 = 0,
+      sum2 = 0,
+      v,
+      i = -1,
+      n = numbers.length;
+
+  while (++i < n) {
+    v = numbers[i] - mean;
+    sum2 += v * v;
+    sum4 += v * v * v * v;
+  }
+
+  return (1 / n) * sum4 / Math.pow((1 / n) * sum2, 2) - 3;
+};
+
+//skewness
+function skewnessCheck(numbers) {
+  var mean = d3.mean(numbers),
+      sum3 = 0,
+      sum2 = 0,
+      v,
+      i = -1,
+      n = numbers.length;
+
+  while (++i < n) {
+    v = numbers[i] - mean;
+    sum2 += v * v;
+    sum3 += v * v * v;
+  }
+
+  return (1 / n) * sum3 / Math.pow((1 / (n - 1)) * sum2, 3 / 2);
+};
+

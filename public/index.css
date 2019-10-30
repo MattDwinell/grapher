@@ -1,6 +1,9 @@
 .bar rect {
     fill: #006064;
   }
+  .bar rect:hover{
+      z-index: 100;
+  }
   
   .bar text {
     fill: #fff;
@@ -9,9 +12,11 @@
   .bar { fill: steelblue; }
   .bar:hover{
       fill: #bbdefb;
+      z-index: 10;
   }
   .bar rect:hover{
       fill:steelblue;
+      z-index: 10;
   }
   svg{
       float: left;
@@ -32,5 +37,8 @@
       opacity: .90;
       fill: black;
       text-decoration: underline;
-
+  }
+  .stats-text{
+      text-align: right;
+      font-weight: 550;
   }
