@@ -146,7 +146,10 @@ function histogramGenerate(obj) {
       bar.append("rect")
         .attr("x", 1)
         .attr("width", Math.abs(x(bins[0].x1) - x(bins[0].x0) - 1))
-        .attr("height", function (d) { return height - y(d.length); });
+        .attr("height", function(d) { return height - y(0); }) // always equal to 0
+        // .attr("height", function (d) { return height - y(d.length); });
+
+
 
       bar.append("text")
         .attr("dy", ".75em")
@@ -168,12 +171,12 @@ function histogramGenerate(obj) {
       iterator++;
       svgIndex = ".svg" + iterator;
       // console.log(svgIndex);
-  //     svg.selectAll("rect")
-  // .transition()
-  // .duration(800)
-  // .attr("y", function(d) { return y(d.length); })
-  // .attr("height", function(d) { return height - y(d.length); })
-  // .delay(function(d,i){console.log(i) ; return(i*100)})
+      svg.selectAll("rect")
+  .transition()
+  .duration(800)
+   .attr("y", function(d) { return 0; })
+  .attr("height", function(d) { return (height - y(d.length)); })
+  .delay(function(d,i){console.log(i) ; return(i*100)})
 
       //call to generate bar graph for counts of qualitative data
     } else if (obj.colTypes[i] === 'qual') {
