@@ -234,6 +234,13 @@ median = (tempArray[Math.floor(tempArray.length/2 -1)] + tempArray[Math.floor(te
     }
 
   }
+  //end of for loop for individual histograms, check for scatterplot generation
+  if(masterObject.cleanQuantArrays.length >= 2){
+console.log(masterObject.cleanQuantArrays.length);
+scatterPlot(masterObject);
+  }
+
+
 }
 //function for bar graph of counts for qualitative data
 function binSortForBar(obj, colNum) {
@@ -381,6 +388,59 @@ svg.append("text")
 .attr("text-anchor", "middle")
 .text(obj.title);
 }
+
+//function for generating exploratory scatterplots-- will need a mirror version for swapping x/y axes
+function scatterPlot(obj){
+  console.log(obj);
+  //starting with for loops, a more sophisticated approach may be to map, or to use recursion + counters
+for(let i=0; i< obj.cleanQuantArrays.length-1; i++){
+  for(let j=i+1; j<obj.cleanQuantArrays.length; j++){
+//getting range values:
+let xMin = d3.min(obj.cleanQuantArrays[i]);
+let xMax = d3.max(obj.cleanQuantArrays[i]);
+let yMin = d3.min(obj.cleanQuantArrays[j]);
+let yMax = d3.max(obj.cleanQuantArrays[j]);
+console.log('xmin/xmax:' + xMin + ' ' + xMax + 'ymin/max:' + yMin +' '+ yMax);
+
+
+
+//initial svg stuff:
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#scatterplot-wrapper")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//x and y axis:
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([xMin, xMax])
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([yMin, yMax])
+    .range([ height, 0]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  }
+}
+}
+
+
+
+
+
 
 //stats functions
 
