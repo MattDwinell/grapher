@@ -432,12 +432,13 @@ function scatterPlot(obj) {
       svg.append("g")
         .call(d3.axisLeft(y));
 
-        let k = -1;
-        let l = -1;
+        var k = -1;
+        var l = -1;
 
 
 var data = obj.cleanQuantArrays;
       //adding those dots:
+      while(k<obj.cleanQuantArrays[i].length){
       svg.append('g')
       .attr("class","scatterdot")
         .selectAll("dot")
@@ -448,7 +449,7 @@ var data = obj.cleanQuantArrays;
         .attr("cy", function () {l++; console.log(obj.cleanQuantArrays[j][l]); return y(obj.cleanQuantArrays[j][l]); })
         .attr("r", 1.5)
         .style("fill", "#69b3a2")
-
+      }
     }
   }
 }
