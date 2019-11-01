@@ -4,6 +4,9 @@
   .bar rect:hover{
       z-index: 100;
   }
+  svg circle{
+      fill:blue;
+  }
   
   .bar text {
     fill: #fff;

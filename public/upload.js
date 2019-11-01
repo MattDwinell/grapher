@@ -115,21 +115,21 @@ function histogramGenerate(obj) {
       // console.log(tempMean, tempMin, tempMax, binSize);
 
       //stats tests go here
- let kurtosis = kurtosisCheck(tempArray).toString().substring(0,6);
- kurtosis = "Kurtosis: " + kurtosis;
-//  console.log(kurtosis);
- let skewness = skewnessCheck(tempArray).toString().substring(0,6);
-//  console.log('skewness:' + skewness);
- skewness = "Skewness " + skewness;
- let rangeText = "Range: " + tempMin + '-' + tempMax;
- let median;
- if(tempArray.length/2 % 2 ===0){
-meadian =  tempArray[Math.floor(tempArray.length/2)];
- } else {
-median = (tempArray[Math.floor(tempArray.length/2 -1)] + tempArray[Math.floor(tempArray.length/2)])/2
- }
- median = 'Median: ' + median;
-//  console.log(rangeText, median);
+      let kurtosis = kurtosisCheck(tempArray).toString().substring(0, 6);
+      kurtosis = "Kurtosis: " + kurtosis;
+      //  console.log(kurtosis);
+      let skewness = skewnessCheck(tempArray).toString().substring(0, 6);
+      //  console.log('skewness:' + skewness);
+      skewness = "Skewness " + skewness;
+      let rangeText = "Range: " + tempMin + '-' + tempMax;
+      let median;
+      if (tempArray.length / 2 % 2 === 0) {
+        meadian = tempArray[Math.floor(tempArray.length / 2)];
+      } else {
+        median = (tempArray[Math.floor(tempArray.length / 2 - 1)] + tempArray[Math.floor(tempArray.length / 2)]) / 2
+      }
+      median = 'Median: ' + median;
+      //  console.log(rangeText, median);
 
 
 
@@ -169,8 +169,8 @@ median = (tempArray[Math.floor(tempArray.length/2 -1)] + tempArray[Math.floor(te
       bar.append("rect")
         .attr("x", 1)
         .attr("width", Math.abs(x(bins[0].x1) - x(bins[0].x0) - 1))
-        .attr("height", function(d) { return height - y(0); }) // always equal to 0
-        // .attr("height", function (d) { return height - y(d.length); });
+        .attr("height", function (d) { return height - y(0); }) // always equal to 0
+      // .attr("height", function (d) { return height - y(d.length); });
 
 
 
@@ -191,42 +191,42 @@ median = (tempArray[Math.floor(tempArray.length/2 -1)] + tempArray[Math.floor(te
         .attr("id", "text")
         .attr("text-anchor", "middle")
         .text(obj.colNames[iterator - 1]);
-//adding stats to right side of histogram:
+      //adding stats to right side of histogram:
       svg.append("text")
-      .attr("x", (9 * width/10))
-      .attr("y", 16 + margin.top/2)
-      .attr("class", "stats-text")
-      .attr("text-anchor", "right")
-      .text(rangeText);
+        .attr("x", (9 * width / 10))
+        .attr("y", 16 + margin.top / 2)
+        .attr("class", "stats-text")
+        .attr("text-anchor", "right")
+        .text(rangeText);
       svg.append("text")
-      .attr("x", (9 * width/10))
-      .attr("y", 30 + margin.top/2)
-      .attr("class", "stats-text")
-      .attr("text-anchor", "right")
-      .text(median);
+        .attr("x", (9 * width / 10))
+        .attr("y", 30 + margin.top / 2)
+        .attr("class", "stats-text")
+        .attr("text-anchor", "right")
+        .text(median);
       svg.append("text")
-      .attr("x", (9 * width/10))
-      .attr("y", 44 + margin.top/2)
-      .attr("class", "stats-text")
-      .attr("text-anchor", "right")
-      .text(skewness);
+        .attr("x", (9 * width / 10))
+        .attr("y", 44 + margin.top / 2)
+        .attr("class", "stats-text")
+        .attr("text-anchor", "right")
+        .text(skewness);
       svg.append("text")
-      .attr("x", (9 * width/10))
-      .attr("y", 58 + margin.top/2)
-      .attr("class", "stats-text")
-      .attr("text-anchor", "right")
-      .text(kurtosis);
+        .attr("x", (9 * width / 10))
+        .attr("y", 58 + margin.top / 2)
+        .attr("class", "stats-text")
+        .attr("text-anchor", "right")
+        .text(kurtosis);
 
 
       iterator++;
       svgIndex = ".svg" + iterator;
       // console.log(svgIndex);
       svg.selectAll("rect")
-  .transition()
-  .duration(800)
-   .attr("y", function(d) { return 0; })
-  .attr("height", function(d) { return (height - y(d.length)); })
-  .delay(function(d,i){ return(i*100)})
+        .transition()
+        .duration(800)
+        .attr("y", function (d) { return 0; })
+        .attr("height", function (d) { return (height - y(d.length)); })
+        .delay(function (d, i) { return (i * 100) })
 
       //call to generate bar graph for counts of qualitative data
     } else if (obj.colTypes[i] === 'qual') {
@@ -235,9 +235,9 @@ median = (tempArray[Math.floor(tempArray.length/2 -1)] + tempArray[Math.floor(te
 
   }
   //end of for loop for individual histograms, check for scatterplot generation
-  if(masterObject.cleanQuantArrays.length >= 2){
-console.log(masterObject.cleanQuantArrays.length);
-scatterPlot(masterObject);
+  if (masterObject.cleanQuantArrays.length >= 2) {
+    console.log(masterObject.cleanQuantArrays.length);
+    scatterPlot(masterObject);
   }
 
 
@@ -245,7 +245,7 @@ scatterPlot(masterObject);
 //function for bar graph of counts for qualitative data
 function binSortForBar(obj, colNum) {
   // console.log(obj, colNum);
- 
+
   let tempArray = [];
   obj.csvArray.map((item) => {
     if (item[colNum]) {
@@ -304,14 +304,14 @@ function binSortForBar(obj, colNum) {
     }
     // console.log(qualobj);
     qualobj.d3Array = [];
-    for(let i = 0; i<qualobj.colNames.length; i ++){
+    for (let i = 0; i < qualobj.colNames.length; i++) {
       let tempObj = {
         key: qualobj.colNames[i],
         value: qualobj.values[i]
       }
-qualobj.d3Array.push(tempObj);
+      qualobj.d3Array.push(tempObj);
     }
-    qualobj.title =  obj.colNames[colNum];
+    qualobj.title = obj.colNames[colNum];
     generateBar(qualobj);
   }
   // tempArray.map
@@ -322,119 +322,135 @@ function generateBar(obj) {
 
 
 
-// set the dimensions and margins of the graph
-var margin = {top: 30, right: 30, bottom: 70, left: 60},
+  // set the dimensions and margins of the graph
+  var margin = { top: 30, right: 30, bottom: 70, left: 60 },
     width = 720 - margin.left - margin.right,
     height = 375 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
-var svg = d3.select("#bar-wrapper")
-  .append("svg")
+  // append the svg object to the body of the page
+  var svg = d3.select("#bar-wrapper")
+    .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .append("g")
     .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+      "translate(" + margin.left + "," + margin.top + ")");
 
-// Parse the Data
-var data = obj;
+  // Parse the Data
+  var data = obj;
 
 
   // X axis
   var x = d3.scaleBand()
-    .range([ 0, width ])
-    .domain(data.colNames )
+    .range([0, width])
+    .domain(data.colNames)
     .padding(0.2);
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x))
     .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end");
 
   // Add Y axis
   var y = d3.scaleLinear()
     .domain([0, d3.max(data.values)])
-    .range([ height, 0]);
+    .range([height, 0]);
   svg.append("g")
     .call(d3.axisLeft(y));
-    // console.log(x);
-let xBands = [];
-for (let i=0;i<obj.colNames.length; i++){
-  xBands.push(margin.left/2 + i * width/obj.colNames.length);
-}
-// console.log(xBands);
-let xCounter = -1;
+  // console.log(x);
+  let xBands = [];
+  for (let i = 0; i < obj.colNames.length; i++) {
+    xBands.push(margin.left / 2 + i * width / obj.colNames.length);
+  }
+  // console.log(xBands);
+  let xCounter = -1;
 
 
-var dmax = d3.max(data.values);
-    svg.selectAll("mybar")
+  var dmax = d3.max(data.values);
+  svg.selectAll("mybar")
     .data(d3.values(data.values))
     .enter().append("rect")
     .attr("class", "bar")
-    .attr("x", function() { 
+    .attr("x", function () {
       xCounter++;
-      return (xBands[xCounter]); })
-    .attr("y", function(data) { return y(data); })
-    .attr("width", x.bandwidth() ) //the width of the bar is the width between the points on the x-axis 
-    .attr("height", function(data){return  y(dmax - data)})
-    // the height of the points is calculated based on the scale and the difference between this point and the max value of the data.
-//adding a title!
-svg.append("text")
-.attr("x", (width / 2))
-.attr("y", 16 + (margin.top / 2))
-.attr("height", 32)
-.attr("id", "bar-text")
-.attr("text-anchor", "middle")
-.text(obj.title);
+      return (xBands[xCounter]);
+    })
+    .attr("y", function (data) { return y(data); })
+    .attr("width", x.bandwidth()) //the width of the bar is the width between the points on the x-axis 
+    .attr("height", function (data) { return y(dmax - data) })
+  // the height of the points is calculated based on the scale and the difference between this point and the max value of the data.
+  //adding a title!
+  svg.append("text")
+    .attr("x", (width / 2))
+    .attr("y", 16 + (margin.top / 2))
+    .attr("height", 32)
+    .attr("id", "bar-text")
+    .attr("text-anchor", "middle")
+    .text(obj.title);
 }
 
 //function for generating exploratory scatterplots-- will need a mirror version for swapping x/y axes
-function scatterPlot(obj){
+function scatterPlot(obj) {
   console.log(obj);
   //starting with for loops, a more sophisticated approach may be to map, or to use recursion + counters
-for(let i=0; i< obj.cleanQuantArrays.length-1; i++){
-  for(let j=i+1; j<obj.cleanQuantArrays.length; j++){
-//getting range values:
-let xMin = d3.min(obj.cleanQuantArrays[i]);
-let xMax = d3.max(obj.cleanQuantArrays[i]);
-let yMin = d3.min(obj.cleanQuantArrays[j]);
-let yMax = d3.max(obj.cleanQuantArrays[j]);
-console.log('xmin/xmax:' + xMin + ' ' + xMax + 'ymin/max:' + yMin +' '+ yMax);
+  for (let i = 0; i < obj.cleanQuantArrays.length - 1; i++) {
+    for (let j = i + 1; j < obj.cleanQuantArrays.length; j++) {
+      //getting range values:
+      let xMin = d3.min(obj.cleanQuantArrays[i]);
+      let xMax = d3.max(obj.cleanQuantArrays[i]);
+      let yMin = d3.min(obj.cleanQuantArrays[j]);
+      let yMax = d3.max(obj.cleanQuantArrays[j]);
+      console.log('xmin/xmax:' + xMin + ' ' + xMax + 'ymin/max:' + yMin + ' ' + yMax);
 
 
 
-//initial svg stuff:
-var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+      //initial svg stuff:
+      var margin = { top: 10, right: 30, bottom: 30, left: 60 },
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
-var svg = d3.select("#scatterplot-wrapper")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      // append the svg object to the body of the page
+      var svg = d3.select("#scatterplot-wrapper")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//x and y axis:
-  // Add X axis
-  var x = d3.scaleLinear()
-    .domain([xMin, xMax])
-    .range([ 0, width ]);
-  svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x));
+      //x and y axis:
+      var x = d3.scaleLinear()
+        .domain([xMin, xMax])
+        .range([0, width]);
+      svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
 
-  // Add Y axis
-  var y = d3.scaleLinear()
-    .domain([yMin, yMax])
-    .range([ height, 0]);
-  svg.append("g")
-    .call(d3.axisLeft(y));
+      var y = d3.scaleLinear()
+        .domain([yMin, yMax])
+        .range([height, 0]);
+      svg.append("g")
+        .call(d3.axisLeft(y));
 
+        let k = -1;
+        let l = -1;
+
+
+var data = obj.cleanQuantArrays;
+      //adding those dots:
+      svg.append('g')
+      .attr("class","scatterdot")
+        .selectAll("dot")
+        .data(d3.values(data))
+        .enter()
+        .append("circle")
+        .attr("cx", function () {k++; console.log(obj.cleanQuantArrays[i][k]); return x(obj.cleanQuantArrays[i][k]);  })
+        .attr("cy", function () {l++; console.log(obj.cleanQuantArrays[j][l]); return y(obj.cleanQuantArrays[j][l]); })
+        .attr("r", 1.5)
+        .style("fill", "#69b3a2")
+
+    }
   }
-}
 }
 
 
@@ -445,13 +461,13 @@ var svg = d3.select("#scatterplot-wrapper")
 //stats functions
 
 //kurtosis
- function kurtosisCheck(numbers) {
+function kurtosisCheck(numbers) {
   var mean = d3.mean(numbers),
-      sum4 = 0,
-      sum2 = 0,
-      v,
-      i = -1,
-      n = numbers.length;
+    sum4 = 0,
+    sum2 = 0,
+    v,
+    i = -1,
+    n = numbers.length;
 
   while (++i < n) {
     v = numbers[i] - mean;
@@ -465,11 +481,11 @@ var svg = d3.select("#scatterplot-wrapper")
 //skewness
 function skewnessCheck(numbers) {
   var mean = d3.mean(numbers),
-      sum3 = 0,
-      sum2 = 0,
-      v,
-      i = -1,
-      n = numbers.length;
+    sum3 = 0,
+    sum2 = 0,
+    v,
+    i = -1,
+    n = numbers.length;
 
   while (++i < n) {
     v = numbers[i] - mean;
