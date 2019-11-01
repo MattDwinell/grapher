@@ -46,3 +46,9 @@
       font-weight: 550;
       opacity: .85;
   }
+  #bar-wrapper{
+      clear: both;
+  }
+  #scatterplot-wrapper{
+      clear:both;
+  }

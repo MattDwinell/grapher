@@ -407,8 +407,8 @@ function scatterPlot(obj) {
 
       //initial svg stuff:
       var margin = { top: 10, right: 30, bottom: 30, left: 60 },
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        width = 600 - margin.left - margin.right,
+        height = 521 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
       var svg = d3.select("#scatterplot-wrapper")
@@ -445,10 +445,16 @@ var data = obj.cleanQuantArrays;
         .data(d3.values(data))
         .enter()
         .append("circle")
-        .attr("cx", function () {k++; console.log(obj.cleanQuantArrays[i][k]); return x(obj.cleanQuantArrays[i][k]);  })
-        .attr("cy", function () {l++; console.log(obj.cleanQuantArrays[j][l]); return y(obj.cleanQuantArrays[j][l]); })
-        .attr("r", 1.5)
-        .style("fill", "#69b3a2")
+        .attr("cx", function () {k++; 
+          // console.log(obj.cleanQuantArrays[i][k]);
+           return x(obj.cleanQuantArrays[i][k]);
+            })
+        .attr("cy", function () {l++;
+          //  console.log(obj.cleanQuantArrays[j][l]);
+            return y(obj.cleanQuantArrays[j][l]);
+           })
+        .attr("r", 1.8)
+        .style("fill", "#006064")
       }
     }
   }
