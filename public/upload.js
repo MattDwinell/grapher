@@ -406,7 +406,7 @@ function scatterPlot(obj) {
 
 
       //initial svg stuff:
-      var margin = { top: 10, right: 30, bottom: 30, left: 60 },
+      var margin = { top: 10, right: 30, bottom: 60, left: 75 },
         width = 600 - margin.left - margin.right,
         height = 521 - margin.top - margin.bottom;
 
@@ -432,6 +432,37 @@ function scatterPlot(obj) {
       svg.append("g")
         .call(d3.axisLeft(y));
 
+        //titles:
+        svg.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 16 + (margin.top / 2))
+        .attr("height", 32)
+        .attr("class", "scatterplot-text")
+        .attr("text-anchor", "middle")
+        .text(obj.colNames[j] + " vs " + obj.colNames[i]);
+
+        svg.append("text")
+        .attr("transform", "translate(0," + height + ")")
+        // .call(d3.axisBottom(x))
+        .attr("class", "x-title")
+        .style("text-anchor", "middle")
+        .text(obj.colNames[i])
+        .attr("width", 100)
+        .attr('height', 32)
+        .attr("x", (width)/2)
+        .attr("y", 35);
+
+        svg.append("text")
+        .attr("transform", "translate(-10,0)rotate(-90)")
+        // .call(d3.axisBottom(x))
+        .attr("class", "y-title")
+        .style("text-anchor", "middle")
+        .text(obj.colNames[j])
+        .attr("width", 100)
+        .attr('height', 32)
+        .attr("x", (-height)/2)
+        .attr("y", -25);
+
         var k = -1;
         var l = -1;
 
@@ -453,7 +484,8 @@ var data = obj.cleanQuantArrays;
           //  console.log(obj.cleanQuantArrays[j][l]);
             return y(obj.cleanQuantArrays[j][l]);
            })
-        .attr("r", 1.8)
+        .attr("r", 2.0)
+        .attr("opacity", .65)
         .style("fill", "#006064")
       }
     }

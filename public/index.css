@@ -52,3 +52,20 @@
   #scatterplot-wrapper{
       clear:both;
   }
+  .scatterplot-text{
+      font-size: 22px;
+      text-decoration: underline;
+      font-weight: 550;
+      fill: black;
+      opacity: .85;
+  }
+  .x-title{
+      fill: #006064;
+      font-size: 20px;
+      opacity: .90;
+      text-align: right;
+  }
+  .y-title{
+      fill: #006064;
+      font-size: 20px;
+  }
