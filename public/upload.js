@@ -1,4 +1,5 @@
 //declaring global variables
+console.log('js connected');
 var masterObject = {
   csvArray: [],
   colNames: [],
