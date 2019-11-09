@@ -1,5 +1,6 @@
 //declaring global variables
 console.log('js connected');
+
 var masterObject = {
   csvArray: [],
   colNames: [],
@@ -394,6 +395,10 @@ function generateBar(obj) {
 //function for generating exploratory scatterplots-- will need a mirror version for swapping x/y axes
 function scatterPlot(obj) {
   console.log(obj);
+
+  //preparing to add switch throughs, mirroring x/y axes:
+
+  
   //starting with for loops, a more sophisticated approach may be to map, or to use recursion + counters
   for (let i = 0; i < obj.cleanQuantArrays.length - 1; i++) {
     for (let j = i + 1; j < obj.cleanQuantArrays.length; j++) {
